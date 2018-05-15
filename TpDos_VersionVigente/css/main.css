@@ -1,0 +1,126 @@
+/*Generales*/
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+
+html, body {
+	background-image: url('../img/background.jpg');
+	background-size: 500px auto;
+}
+
+.container {
+	margin: 40px auto;
+	background-color: white;
+}
+
+#instrucciones{
+	margin-left: 10px;
+}
+
+h1, form, p{
+	margin-bottom: 20px;
+}
+
+h1 {
+	color: #5c9294;
+}
+
+#nombre {
+	height: 30px;
+	width: 150px;
+	border-radius: 10px;
+	background: lightyellow;
+	text-align: center;
+}
+
+#error {
+	font-size: 11px;
+	text-transform: uppercase;
+	color: pink;
+}
+
+.icono {
+	font-size: 19px;
+	margin-left: 5px;
+	color: #e99f53;
+}
+
+.icono:hover {
+	color: turquoise;
+	transition: 0.5s;
+}
+
+h3 {
+	color: #abdac6;
+}
+
+#areaboton {
+	margin-left:15px;
+	padding: 0;
+}
+
+button {
+	width: 100%;
+	height: 40px;
+	border-radius: 15px;
+	border-color: #87cfc8 ;
+	background: #a3dad5;
+
+}
+
+figure {
+	overflow: hidden;
+}
+
+.tile {
+	padding: 10px;
+}
+
+.slotficha {
+	background-image: url('../img/backgroundfichas.jpg');
+	background-size: cover;
+	background-color: pink;
+	border-radius: 12px;
+	box-shadow: 0px 2px 2px 2px gray;
+}
+
+img {
+	max-width: 100%;
+	height:auto;
+	border-radius: 10px;
+}
+
+/*Clases utilizadas en JS*/
+
+/*Clase que muestra la ficha*/
+.anverso {
+	opacity: 1;
+}
+
+/*Clases que ocultan y traban las fichas respectivamente*/
+.reverso, .lock {
+	opacity:0;
+}
+
+/*Clase que se le asigna a las fichas cuando se acierta*/
+.win {
+	filter:saturate(0);
+	transition:0.4s;
+}
+
+/*Clase del nodo que aparece al ganar o perder*/
+.result {
+	margin-top:10px;
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:center;
+}
+
+.result h2 {
+	text-align:center;
+	width:100%;
+}
+
