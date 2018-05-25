@@ -253,7 +253,7 @@ var opcion = $('#dificultad :selected').val();
 	$.each(imagenes, function(key,value){
 		if(opcion == value.nombre){
 			$('#imgdificultad').children().remove();
-			var imagenDificultad = `<img src=img/niveles/${value.img} alt="${value.alt}">`;
+			var imagenDificultad = `<img src=img/Niveles/${value.img} alt="${value.alt}">`;
 			$('#imgdificultad').append(imagenDificultad); 
 		}
 	}
