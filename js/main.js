@@ -63,43 +63,58 @@ var fichas = [{ nombre:0,
 
   var par = []; //traerá los valores de cada ficha. Las cartas iguales tienen igual valor
   var controlNombre = []; //traerá los nombres de cada ficha. Cada ficha tiene un nombre único
-  var turno = 24;
+  var turno;
+  var turnoDificultad; //Guarda el número de turnos de la dificultad seleccionada para traerlo al tocar "reiniciar"
   var puntos = 0;
 
 /////////////////////////////////FUNCIONES////////////////////////////////////////////
 
-//Función para que el jugador ponga su nombre
- function cargaNombre() {
-  var nombre = $("#nombre").val();
+//Función que esconde tablero e instrucciones al entrar a la página 
+function hideTodo(){
+	$("#hideme").hide();
+};
+
+//Función que carga el nombre del/lx jugador
+ function cargaDatos() {
+   var nombre = $("#nombre").val();
     if(nombre != "") {
-      $("#nombre").hide();
-      $("#nombre").prev().hide();
-      $(this).hide();
-      var jugador = "<p id='player'>Jugador/x actual: "+nombre+"<span id='editar' class='ion-edit icono'></span></p>"    
-      $("form").append(jugador);
-      $("#error").text("")
+      $("#inicio").hide();
+      var jugador = "<p>Jugador/x actual: "+nombre+"</p>";    
+      $("#jugadorActual").append(jugador);
+      $('.hide').removeClass('hide');
+      $("#hideme").show();
+      $("#error").text("");
     }else{
       $("#error").text("Ingresá tu nombre");
   }
-}
+};
 
-//Función para editar o cambiar el nombre
-function editaNombre() {
-  $("#nombre").show();
-  $("#nombre").prev().show();
-  $("#ingreso").show();
-  $("#player").remove();
-  $(this).remove();  
-}
+//Función que carga la dificultad seleccionada
+function selectDificultad(){
+	var opcion = $('#dificultad :selected').val();
+	switch(opcion){
+		case "Principiante": console.log("Uno"); 
+ 												 turno = 18;			
+												 break;
 
+		case "Intermedio": console.log("Dos"); 
+											 turno = 12;
+											 break;
+		case "Experto": console.log("Tres"); 
+										turno = 8;
+										break;
+	};
+turnoDificultad = turno;
+$("#contador").text(turno);
+}
 
 //Función que mezcla las fichas 
 function mezclar(){
     for(i=0; i<fichas.length; i++){
       var random= Math.floor(Math.random()*fichas.length);
-      var slot=fichas[i] 
-      fichas[i]=fichas[random]
-      fichas[random]=slot 
+      var slot=fichas[i]; 
+      fichas[i]=fichas[random];
+      fichas[random]=slot; 
     }
 }
 
@@ -107,16 +122,16 @@ function mezclar(){
 
 function repartir() {
 for(i=0;i<fichas.length;i++){
-var img ='<figure class="slotficha"><img id="'+fichas[i].nombre+'" class="reverso" src="'+fichas[i].img+'" data-valor="'+fichas[i].valor+'" draggable="false"/></figure>'
-var tile = $("#tile"+i)
+var img ='<figure class="slotficha"><img id="'+fichas[i].nombre+'" class="reverso" src="'+fichas[i].img+'" data-valor="'+fichas[i].valor+'" draggable="false"/></figure>';
+var tile = $("#tile"+i);
 tile.append(img);
 }
-console.log("repartido")
+console.log("repartido");
 }
 
 //Función que resetea valores y rehace mezcla/reparto al clickear "reiniciar" 
 function reiniciar() {
-  turno = 24;
+  turno = turnoDificultad;
   puntos = 0;
   par = [];
   controlNombre = [];
@@ -144,7 +159,7 @@ function reiniciar() {
       if(controlNombre[0]===controlNombre[1]){
       
       par.splice(0,1);
-      controlNombre.splice(0,1)
+      controlNombre.splice(0,1);
       
       //Entro a la comparación
       }else{
@@ -157,23 +172,20 @@ function reiniciar() {
 function comparar() {
     //traba las fichas para que no pueda seguir dándolas vuelta durante la comparación
     $(".reverso").addClass("lock");
-    $(".lock").removeClass("reverso")
+    $(".lock").removeClass("reverso");
     
     //compara    
     if(par[0]===par[1]) {
-      console.log("yay");
-      setTimeout(win, 1000)
+    	rebotar();
+      setTimeout(win, 1000);
         
     }else{
-      console.log("nay");
-      setTimeout(lose, 1000)
+      setTimeout(lose, 1000);
     } 
 }
 
 //Función que se activa si acierto el par
 function win(){
-  $(".anverso").addClass("win");
-  $(".win").removeClass("anverso"); 
   $("#"+controlNombre[0]).off('click');
   $("#"+controlNombre[1]).off('click');
   $(".lock").addClass("reverso");
@@ -211,9 +223,49 @@ function lose() {
   }
 }
 
+function rebotar() {
+	$("#"+controlNombre[0]).parent().effect('bounce', {distance: -20}, "slow");
+ 	$("#"+controlNombre[1]).parent().effect('bounce', {distance: -20}, "slow");
+ 	$(".anverso").addClass("win");
+  $(".win").removeClass("anverso"); 
+};
+
+function imagenesDificultad() {
+var imagenes = [
+{
+	nombre:"Principiante",
+	img: "principiante.jpg",
+	alt: "Perro hipster principiante"
+},
+{
+	nombre:"Intermedio",
+	img: "intermedio.jpg",
+	alt: "Perro hipster intermedio"
+},
+{
+	nombre:"Experto",
+	img: "experto.jpg",
+	alt: "Perro hipster experto"
+},
+];
+
+var opcion = $('#dificultad :selected').val();
+	$.each(imagenes, function(key,value){
+		if(opcion == value.nombre){
+			$('#imgdificultad').children().remove();
+			var imagenDificultad = `<img src=img/niveles/${value.img} alt="${value.alt}">`;
+			$('#imgdificultad').append(imagenDificultad); 
+		}
+	}
+	)
+}
+
+
 /////////////////////////////LLAMADAS A FUNCIONES////////////////////////////////
-$("#ingreso").on("click", cargaNombre);
-$(document).on("click", "#editar", editaNombre);
+hideTodo();
+$("#dificultad").on("change", imagenesDificultad);
+$("#comenzar").on("click", selectDificultad);
+$("#comenzar").on("click", cargaDatos);
 mezclar();
 repartir();
 $(document).on("click", ".reverso", gameplay);

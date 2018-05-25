@@ -1,42 +1,66 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	    <title>¡Memoteeeeest!</title>
-	    <!--Google font-->
-	    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	    <!--Ionicons-->
-	    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
-	    <!--Hojas de estilo-->
-	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	    <link href="css/main.css" type="text/css" rel="stylesheet">
-  	</head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	  <title>¡Memoteeeeest!</title>
+	  
+	  <!--Google font-->
+	  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	  <!--Ionicons-->
+	  <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+	  <!--Hojas de estilo-->
+	  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	  <link href="css/main.css" type="text/css" rel="stylesheet">
+  </head>
 
 	<body>
 		<div class="container">
-			<div class="row">
+			
+			<!--Pantalla 1: Ingreso de nombre y dificultad-->
+			<div class="row" id="inicio">
+				<div id="player" class="col-xs-6">
+					<!--Imagen-->
+					<figure id="imgdificultad">
+						<img class="img-fluid" src="img/niveles/principiante.jpg" alt="Perro hipster principiante"/>
+					</figure>
+					<!--Ingreso de nombre y dificultad-->
+					<form>
+							<label for="nombre">¿Quién está jugando hoy?</label>
+							<div id="datosJugador">
+								<input id="nombre" type="text" name="nombre" placeholder="Nombre del/lx jugador/x"/>
+								<p id="error"></p>
+							</div>		
+							<label>Seleccioná un nivel de dificultad</label>
+								<select id="dificultad">
+									<option>Principiante</option>
+									<option>Intermedio</option>
+									<option>Experto</option>
+								</select>
+							<div class="col-xs-6-offset-3">
+								<button type="button" id="comenzar">Iniciar</button>
+							</div>
+					</form>
+				</div>
+			</div>
+			<!--Pantalla 2: Instrucciones y tablero-->
+			<div class="row" id="hideme" class="hide">
 				<!--Aside-->
-				<div class="col-sm-12 col-md-4">
-					<!--Fila 1: Formulario de ingreso de nombres e instrucciones-->
-					<div class="row" id="instrucciones">
+				<div id="filaAside" class="col-sm-12 col-md-4" >
+					<!--Fila 1: Nombre, turno e instrucciones-->
+					<div class="row hide" id="instrucciones">
 						<h1>¡Bienvenidx al Memotest!</h1>
-						<form>
-							<label for="nombre">¿Quién está jugando?</label>
-							<input id="nombre" type="text" name="nombre" placeholder="Nombre del jugador"/>
-							<span id="ingreso" class="ion-android-done icono"></span>
-							<p id="error"></p>		
-						</form>
+						<div id="jugadorActual"></div>
 						<h3>Instrucciones</h3>
 						<p>El objetivo del juego es encontrar todos los pares de fichas iguales. Podés dar vuelta dos fichas por movimiento. Para ganar, debés unir todos los pares en veinticuatro movimientos o menos <br/>
 						¡A jugar!</p>
 						<h3>Movimientos disponibles</h3>
-						<p id="contador">24</p>
+						<p id="contador"></p>
 					</div>
 					<!--Fila 2: Botón de reinicio-->
 					<div class="row">
 						<div class="col-xs-4 col-sm-4 col-md-6" id="areaboton">
-							<button type="button" id="reinicio">Reiniciar</button>
+							<button type="button" id="reinicio" class="hide">Reiniciar</button>
 						</div>
 					</div>
 				</div>
@@ -67,6 +91,7 @@
 
 	<!--Scripts-->
 	<script src="js/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/main.js"></script>
 	</body>
 </html>

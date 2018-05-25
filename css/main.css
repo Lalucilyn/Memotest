@@ -6,7 +6,7 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
-html, body {
+body {
 	background-image: url('../img/background.jpg');
 	background-size: 500px auto;
 }
@@ -16,8 +16,87 @@ html, body {
 	background-color: white;
 }
 
+#inicio {
+	min-height:600px;
+	border:3px double black;
+	border-radius:5px;
+	text-align:center;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+
+#player {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content:center;
+
+}
+
+#player label {
+	font-size:20px;
+	font-weight:normal;
+	margin:20px 0;
+}
+
+select, #nombre {
+	height:40px;
+	border:none;
+	border-radius:5px;
+	box-shadow: 0 5px 5px 3px lightgray;
+	color:gray;
+}
+
+select {
+	width:130px;
+}
+
+select:focus {
+	outline:none;
+}
+
+#nombre {
+	width:250px;
+	text-align: center;
+}
+
+#player img {
+	width:220px;
+	height:auto;
+	border-radius:50%;
+	margin: 10px 0;
+}
+
+#comenzar {
+	margin-top:20px;
+	width:100%;
+	height:60px;
+	display:block;
+}
+
 #instrucciones{
 	margin-left: 10px;
+}
+
+#error {
+	font-size: 15px;
+	text-transform: uppercase;
+	color: crimson;
+	margin-bottom:0px;
+	margin-left:12%;
+	position:absolute;
+}
+
+select {
+	display:block;
+	margin:0 auto;
+}
+
+#imgdificultad {
+	height:250px;
+	width:250px;
 }
 
 h1, form, p{
@@ -26,20 +105,6 @@ h1, form, p{
 
 h1 {
 	color: #5c9294;
-}
-
-#nombre {
-	height: 30px;
-	width: 150px;
-	border-radius: 10px;
-	background: lightyellow;
-	text-align: center;
-}
-
-#error {
-	font-size: 11px;
-	text-transform: uppercase;
-	color: pink;
 }
 
 .icono {
@@ -93,6 +158,14 @@ img {
 	border-radius: 10px;
 }
 
+#reinicio {
+	margin-left:10px;
+}
+
+.hide {
+	visibility:hidden;
+}
+
 /*Clases utilizadas en JS*/
 
 /*Clase que muestra la ficha*/
@@ -124,3 +197,30 @@ img {
 	width:100%;
 }
 
+/***********MEDIA QUERY*********/
+
+@media all and (max-width:980px){
+	.tile {
+		padding:5px;
+	}
+
+	#filaAside {
+		padding-left:0px;
+	}
+
+	#instrucciones {
+		margin-left:0px;
+	}
+
+	#tablero {
+		margin-top:10px;
+	}
+
+	#reinicio {
+		margin-left:0px;
+	}
+
+	#error {
+		margin-left:20%;
+	}
+}
