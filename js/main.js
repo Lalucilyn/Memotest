@@ -1,4 +1,6 @@
 console.log("cargado");
+//localStorage.clear();
+
 /////////////////////////////////VARIABLES//////////////////////////////////////////
 var fichas = [{ nombre:0, 
                 valor:0, 
@@ -66,47 +68,102 @@ var fichas = [{ nombre:0,
   var turno;
   var turnoDificultad; //Guarda el número de turnos de la dificultad seleccionada para traerlo al tocar "reiniciar"
   var puntos = 0;
+  var player;
+  var score;
+  var puntuacionesMaximas;
 
 /////////////////////////////////FUNCIONES////////////////////////////////////////////
+
+//Función que recupera los puntajes máximos de localStorage (si los hay)
+function getPuntajes(){
+		var puntajesGuardados = localStorage.getItem("puntajes");
+		if(puntajesGuardados==null) {
+  		puntuacionesMaximas=[];
+		}else{
+  		parsePuntajesGuardados = JSON.parse(puntajesGuardados);
+  		puntuacionesMaximas = parsePuntajesGuardados.puntuacionesMax;
+		}
+		console.log(puntuacionesMaximas)
+}
 
 //Función que esconde tablero e instrucciones al entrar a la página 
 function hideTodo(){
 	$("#hideme").hide();
 };
 
+//Función que cambia la imagen al cambiar el nivel de dificultad
+function imagenesDificultad() {
+		var imagenes = [
+				{
+  				nombre:"Principiante",
+  				img: "principiante.jpg",
+  				alt: "Perro hipster principiante"
+				},
+				{
+  				nombre:"Intermedio",
+  				img: "intermedio.jpg",
+  				alt: "Perro hipster intermedio"
+				},
+				{
+  				nombre:"Experto",
+  				img: "experto.jpg",
+  				alt: "Perro hipster experto"
+				},
+		];
+		var opcion = $('#dificultad :selected').val();
+  	
+  	$.each(imagenes, function(key,value){
+    if(opcion == value.nombre){
+      $('#imgdificultad').children().remove();
+      var imagenDificultad = `<img src=img/niveles/${value.img} alt="${value.alt}">`;
+      $('#imgdificultad').append(imagenDificultad); 
+    }
+  }
+
+)}
+
 //Función que carga el nombre del/lx jugador
  function cargaDatos() {
-   var nombre = $("#nombre").val();
-    if(nombre != "") {
-      $("#inicio").hide();
-      var jugador = "<p>Jugador/x actual: "+nombre+"</p>";    
-      $("#jugadorActual").append(jugador);
-      $('.hide').removeClass('hide');
-      $("#hideme").show();
-      $("#error").text("");
-    }else{
-      $("#error").text("Ingresá tu nombre");
-  }
+  var nombre = $("#nombre").val();
+  player=nombre;
+   
+  if(nombre != "") {
+  	$("#inicio").hide();
+    var jugador = "<p id='jugadorActual'>Jugador/x actual: "+nombre+"</p>";    
+    $("#jugadorActual").append(jugador);
+    $('.hide').removeClass('hide'); //agregada porque, en firefox, los elementos ocultos se ven por un segundo al iniciar.
+    $("#hideme").show();
+    $("#error").text("");
+   }else{
+     $("#error").text("Ingresá tu nombre");
+   }
 };
 
 //Función que carga la dificultad seleccionada
 function selectDificultad(){
 	var opcion = $('#dificultad :selected').val();
 	switch(opcion){
-		case "Principiante": console.log("Uno"); 
- 												 turno = 18;			
-												 break;
+		case "Principiante": 
+			console.log("Uno"); 
+ 			turno = 18;
+      score = 100;			
+			break;
 
-		case "Intermedio": console.log("Dos"); 
-											 turno = 12;
-											 break;
+		case "Intermedio": 
+			console.log("Dos"); 
+			turno = 12;
+      score =150;
+			break;
+
 		case "Experto": console.log("Tres"); 
-										turno = 8;
-										break;
+			turno = 8;
+      score = 200;
+			break;
 	};
-turnoDificultad = turno;
-$("#contador").text(turno);
-}
+  turnoDificultad = turno;
+  console.log(score);
+  $("#contador").text(turno);
+};
 
 //Función que mezcla las fichas 
 function mezclar(){
@@ -141,7 +198,6 @@ function reiniciar() {
   $(".result").remove()
   mezclar();
   repartir();
-
 }
 
 //Función Gameplay (se activa al clickear una ficha)
@@ -164,6 +220,7 @@ function reiniciar() {
       //Entro a la comparación
       }else{
         comparar();
+        console.log(score);
       }
     }
 }
@@ -199,7 +256,8 @@ function win(){
     $(".tile").children().remove();
     $("#tablero").children().hide();
     var win = `<div class="result"><figure><img src="img/ganador.gif" alt="gato celebratorio"/></figure><h2>¡Felicidades! ¡Has ganado!</h2><h5>¡¡¡¡Presiona "reiniciar" para jugar de nuevo!!!!</h5></div>`;
-    $("#tablero").append(win);  
+    $("#tablero").append(win); 
+    highScore(); 
   }
 }
 
@@ -212,6 +270,7 @@ function lose() {
   par=[];
   controlNombre=[];
   turno--;
+  score-=5;
   $("#contador").text(turno);
 
   //Si fue el último turno, se muestra pantalla perdedora 
@@ -223,6 +282,7 @@ function lose() {
   }
 }
 
+//Función que anima las fichas en caso de acierto
 function rebotar() {
 	$("#"+controlNombre[0]).parent().effect('bounce', {distance: -20}, "slow");
  	$("#"+controlNombre[1]).parent().effect('bounce', {distance: -20}, "slow");
@@ -230,39 +290,59 @@ function rebotar() {
   $(".win").removeClass("anverso"); 
 };
 
-function imagenesDificultad() {
-var imagenes = [
-{
-	nombre:"Principiante",
-	img: "principiante.jpg",
-	alt: "Perro hipster principiante"
-},
-{
-	nombre:"Intermedio",
-	img: "intermedio.jpg",
-	alt: "Perro hipster intermedio"
-},
-{
-	nombre:"Experto",
-	img: "experto.jpg",
-	alt: "Perro hipster experto"
-},
-];
+//Función que guarda y ordena puntuaciones máximas
+function highScore(){
+  var highScore ={};
+  highScore.nombre=player;
+  highScore.puntaje=score;
 
-var opcion = $('#dificultad :selected').val();
-	$.each(imagenes, function(key,value){
-		if(opcion == value.nombre){
-			$('#imgdificultad').children().remove();
-			var imagenDificultad = `<img src=img/${value.img} alt="${value.alt}">`;
-			$('#imgdificultad').append(imagenDificultad); 
-		}
-	}
-	)
+  //Si no hay ninguna puntuación guardada, guarda la primera y no necesita ordenar
+  if(puntuacionesMaximas===0){
+  	puntuacionesMaximas.push(highScore);
+  }
+
+  //Si hay menos de cinco puntuaciones, guarda todas y las ordena
+  else if(puntuacionesMaximas.length<5){
+    puntuacionesMaximas.push(highScore);
+    puntuacionesMaximas.sort(function(a,b){
+       return b.puntaje - a.puntaje;
+    });
+    console.log(puntuacionesMaximas);
+
+  //Si ya hay cinco puntuaciones, actualiza solamente en caso de que la nueva puntuación sea más alta que la N°5 (y ordena)  
+  }else{
+  	if(score>puntuacionesMaximas[4].puntaje){
+    	puntuacionesMaximas.splice(4,1);
+    	puntuacionesMaximas.push(highScore);
+    	puntuacionesMaximas.sort(function(a,b){
+      		return b.puntaje - a.puntaje;
+      });
+   	};
+  };
+  crearJSON();
 }
 
+//Función que crea el objeto JSON con puntuaciones que guardaré en localStorage
+function crearJSON(){
+	var JSONpuntos = {
+  "puntuacionesMax": puntuacionesMaximas, 
+  }
+  var guardoPuntos = JSON.stringify(JSONpuntos);
+  localStorage.setItem("puntajes",guardoPuntos);
+}
+
+//Función que muestra la tabla de puntuaciones
+function showScores(){
+	$.each(puntuacionesMaximas, function(key,value){
+		var scoreDisplay = `<li>${value.nombre} ${value.puntaje}</li>`
+		console.log(scoreDisplay);
+	})
+	//Hay que crear un contenedor donde meter los li y una condición que lo abra y cierre
+}
 
 /////////////////////////////LLAMADAS A FUNCIONES////////////////////////////////
 hideTodo();
+getPuntajes();
 $("#dificultad").on("change", imagenesDificultad);
 $("#comenzar").on("click", selectDificultad);
 $("#comenzar").on("click", cargaDatos);
@@ -270,3 +350,11 @@ mezclar();
 repartir();
 $(document).on("click", ".reverso", gameplay);
 $('#reinicio').on('click', reiniciar);
+showScores();
+/*
+Criterio para contar puntos:
+- El highscore solamente se guarda en caso de ganar.
+- Cada error resta 5 puntos
+- Ganar en experto da un plus de 200 puntos; en intermedio, de 100 
+y en principiante, de 50 (de este modo, el puntaje nunca es negativo y ganar 
+en un nivel superior da ventaja)*/
