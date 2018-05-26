@@ -115,7 +115,7 @@ function imagenesDificultad() {
   	$.each(imagenes, function(key,value){
     if(opcion == value.nombre){
       $('#imgdificultad').children().remove();
-      var imagenDificultad = `<img src=img/niveles/${value.img} alt="${value.alt}">`;
+      var imagenDificultad = `<img src=img/${value.img} alt="${value.alt}">`;
       $('#imgdificultad').append(imagenDificultad); 
     }
   }
