@@ -22,7 +22,7 @@
 				<div id="player" class="col-xs-6">
 					<!--Imagen-->
 					<figure class="fluid" id="imgdificultad">
-						<img class="img-fluid" src="img/principiante.jpg" alt="Perro hipster principiante"/>
+						<img class="img-fluid" src="img/niveles/principiante.jpg" alt="Perro hipster principiante"/>
 					</figure>
 					<!--Ingreso de nombre y dificultad-->
 					<form>
@@ -38,13 +38,13 @@
 									<option>Experto</option>
 								</select>
 							<div class="col-xs-6-offset-3">
-								<button type="button" id="comenzar">Iniciar</button>
+								<button type="button" id="comenzar">Comenzar</button>
 							</div>
 					</form>
 				</div>
 			</div>
 			<!--Pantalla 2: Instrucciones y tablero-->
-			<div class="row" id="hideme" class="hide">
+			<div class="row hide" id="hideme">
 				<!--Aside-->
 				<div id="filaAside" class="col-sm-12 col-md-4" >
 					<!--Fila 1: Nombre, turno e instrucciones-->
@@ -52,10 +52,11 @@
 						<h1>¡Bienvenidx al Memotest!</h1>
 						<div id="jugadorActual"></div>
 						<h3>Instrucciones</h3>
-						<p>El objetivo del juego es encontrar todos los pares de fichas iguales. Podés dar vuelta dos fichas por movimiento. Para ganar, debés unir todos los pares en veinticuatro movimientos o menos <br/>
+						<p>El objetivo del juego es encontrar todos los pares de fichas iguales. Podés dar vuelta dos fichas por movimiento. Para ganar, debés unir todos los pares antes de que se terminen los movimientos <br/>
 						¡A jugar!</p>
 						<h3>Movimientos disponibles</h3>
 						<p id="contador"></p>
+						<p id="verPuntuaciones">Ver puntuaciones máximas</p>
 					</div>
 					<!--Fila 2: Botón de reinicio-->
 					<div class="row">
@@ -84,6 +85,19 @@
 						<div class="col-xs-3 tile" id="tile9"></div>
 						<div class="col-xs-3 tile" id="tile10"></div>
 						<div class="col-xs-3 tile" id="tile11"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div id="puntajes" class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 hide">
+					<h3>Puntuaciones máximas</h3>
+					<ul id="highScores">
+						<li>¡No hay puntuaciones para mostrar! ¡Ganá el juego para que tus puntuaciones aparezcan aquí!</li>
+					</ul>
+					<div class="row">
+						<div class="col-xs-8 col-xs-offset-2">
+							<button id="cerrar">cerrar</button>
+						</div>
 					</div>
 				</div>
 			</div>

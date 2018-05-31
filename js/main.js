@@ -89,6 +89,7 @@ function getPuntajes(){
 //Función que esconde tablero e instrucciones al entrar a la página 
 function hideTodo(){
 	$("#hideme").hide();
+  $("#puntajes").hide();
 };
 
 //Función que cambia la imagen al cambiar el nivel de dificultad
@@ -115,7 +116,7 @@ function imagenesDificultad() {
   	$.each(imagenes, function(key,value){
     if(opcion == value.nombre){
       $('#imgdificultad').children().remove();
-      var imagenDificultad = `<img src=img/${value.img} alt="${value.alt}">`;
+      var imagenDificultad = `<img src=img/niveles/${value.img} alt="${value.alt}">`;
       $('#imgdificultad').append(imagenDificultad); 
     }
   }
@@ -258,6 +259,7 @@ function win(){
     var win = `<div class="result"><figure><img src="img/ganador.gif" alt="gato celebratorio"/></figure><h2>¡Felicidades! ¡Has ganado!</h2><h5>¡¡¡¡Presiona "reiniciar" para jugar de nuevo!!!!</h5></div>`;
     $("#tablero").append(win); 
     highScore(); 
+    createScores();
   }
 }
 
@@ -279,6 +281,7 @@ function lose() {
     $("#tablero").children().hide();
     var lost = `<div class="result"><figure><img src="img/losecat.jpg" alt="gato triste"/></figure><h2>¡Lo sentimos! ¡Has perdido!</h2><h5>¡¡¡¡Presiona "reiniciar" para jugar de nuevo!!!!</h5></div>`;
     $("#tablero").append(lost);  
+
   }
 }
 
@@ -331,15 +334,25 @@ function crearJSON(){
   localStorage.setItem("puntajes",guardoPuntos);
 }
 
-//Función que muestra la tabla de puntuaciones
-function showScores(){
+//Función que crea la tabla de puntuaciones
+function createScores(){
+  if(puntuacionesMaximas.length>0){
+  $('#highScores').children().remove();
 	$.each(puntuacionesMaximas, function(key,value){
 		var scoreDisplay = `<li>${value.nombre} ${value.puntaje}</li>`
+    $('#highScores').append(scoreDisplay);
 		console.log(scoreDisplay);
-	})
-	//Hay que crear un contenedor donde meter los li y una condición que lo abra y cierre
+  })
+	}
 }
 
+function showScores(){
+  $('#puntajes').show();
+}
+
+function hideScores(){
+  $('#puntajes').hide();
+}
 /////////////////////////////LLAMADAS A FUNCIONES////////////////////////////////
 hideTodo();
 getPuntajes();
@@ -350,7 +363,9 @@ mezclar();
 repartir();
 $(document).on("click", ".reverso", gameplay);
 $('#reinicio').on('click', reiniciar);
-showScores();
+createScores();
+$("#cerrar").on('click', hideScores);
+$('#verPuntuaciones').on('click', showScores)
 /*
 Criterio para contar puntos:
 - El highscore solamente se guarda en caso de ganar.

@@ -4,6 +4,10 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Open Sans', sans-serif;
+    -webkit-user-select: none; /*Evitan que se pueda seleccionar texto/divs.*/
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 body {
@@ -102,22 +106,16 @@ h1, form, p{
 	margin-bottom: 20px;
 }
 
-h1 {
+h1, #verPuntuaciones {
 	color: #5c9294;
 }
 
-.icono {
-	font-size: 19px;
-	margin-left: 5px;
-	color: #e99f53;
+#verPuntuaciones:hover {
+	font-weight:bold;
+	cursor:pointer;
 }
 
-.icono:hover {
-	color: turquoise;
-	transition: 0.5s;
-}
-
-h3 {
+h3  {
 	color: #abdac6;
 }
 
@@ -167,6 +165,33 @@ img {
 	visibility:hidden;
 }
 
+#puntajes {
+	border:9px double black;
+	position:absolute;
+	top:80px;
+	right:50%;
+	transform:translateX(50%);
+	background:white;
+	padding:10px;
+}
+
+#puntajes ul {
+	text-align:center;
+}
+
+#puntajes ul li {
+	list-style:none;
+}
+
+#puntajes h3 {
+	text-align:center;
+}
+
+#cerrar {
+	width:100%;
+
+}
+
 /*Clases utilizadas en JS*/
 
 /*Clase que muestra la ficha*/
@@ -176,7 +201,7 @@ img {
 
 /*Clases que ocultan y traban las fichas respectivamente*/
 .reverso, .lock {
-	opacity:0.5;
+	opacity:0;
 }
 
 /*Clase que se le asigna a las fichas cuando se acierta*/
