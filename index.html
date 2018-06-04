@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	  <title>¡Memoteeeeest!</title>
+	  
+	  <!--Google font-->
+	  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	  <!--Ionicons-->
+	  <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+	  <!--Hojas de estilo-->
+	  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	  <link href="css/main.css" type="text/css" rel="stylesheet">
+  </head>
+
+	<body>
+		<div class="container">
+			
+			<!--Pantalla 1: Ingreso de nombre y dificultad-->
+			<div class="row" id="inicio">
+				<div id="player" class="col-xs-6">
+					<!--Imagen-->
+					<figure class="fluid" id="imgdificultad">
+						<img class="img-fluid" src="img/niveles/principiante.jpg" alt="Perro hipster principiante"/>
+					</figure>
+					<!--Ingreso de nombre y dificultad-->
+					<form>
+							<label for="nombre">¿Quién está jugando hoy?</label>
+							<div id="datosJugador">
+								<input id="nombre" type="text" name="nombre" placeholder="Nombre del/lx jugador/x"/>
+								<p id="error"></p>
+							</div>		
+							<label>Seleccioná un nivel de dificultad</label>
+								<select id="dificultad">
+									<option>Principiante</option>
+									<option>Intermedio</option>
+									<option>Experto</option>
+								</select>
+							<div class="col-xs-6-offset-3">
+								<button type="button" id="comenzar">Comenzar</button>
+							</div>
+					</form>
+				</div>
+			</div>
+			<!--Pantalla 2: Instrucciones y tablero-->
+			<div class="row hide" id="hideme">
+				<!--Aside-->
+				<div id="filaAside" class="col-sm-12 col-md-4" >
+					<!--Fila 1: Nombre, turno e instrucciones-->
+					<div class="row hide" id="instrucciones">
+						<h1>¡Bienvenidx al Memotest!</h1>
+						<div id="jugadorActual"></div>
+						<h3>Instrucciones</h3>
+						<p>El objetivo del juego es encontrar todos los pares de fichas iguales. Podés dar vuelta dos fichas por movimiento. Para ganar, debés unir todos los pares antes de que se terminen los movimientos <br/>
+						¡A jugar!</p>
+						<h3>Movimientos disponibles</h3>
+						<p id="contador"></p>
+						<p id="verPuntuaciones">Ver puntuaciones máximas</p>
+					</div>
+					<!--Fila 2: Botón de reinicio-->
+					<div class="row">
+						<div class="col-xs-4 col-sm-4 col-md-6" id="areaboton">
+							<button type="button" id="reinicio" class="hide">Reiniciar</button>
+						</div>
+					</div>
+				</div>
+				<!--Tablero (campos vacíos, las fichas se generan dinámicamente)-->
+				<div id="tablero" class="col-sm-12 col-md-8">
+					<!--Tres filas de cuatro columnas cada una-->
+					<div class="row">
+						<div class="col-xs-3 tile" id="tile0"></div>
+						<div class="col-xs-3 tile" id="tile1"></div>
+						<div class="col-xs-3 tile" id="tile2"></div>
+						<div class="col-xs-3 tile" id="tile3"></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 tile" id="tile4"></div>
+						<div class="col-xs-3 tile" id="tile5"></div>
+						<div class="col-xs-3 tile" id="tile6"></div>
+						<div class="col-xs-3 tile" id="tile7"></div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 tile" id="tile8"></div>
+						<div class="col-xs-3 tile" id="tile9"></div>
+						<div class="col-xs-3 tile" id="tile10"></div>
+						<div class="col-xs-3 tile" id="tile11"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div id="puntajes" class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-3 hide">
+					<h3>Puntuaciones máximas</h3>
+					<ul id="highScores">
+						<li>¡No hay puntuaciones para mostrar! ¡Ganá el juego para que tus puntuaciones aparezcan aquí!</li>
+					</ul>
+					<div class="row">
+						<div class="col-xs-8 col-xs-offset-2">
+							<button id="cerrar">cerrar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!--Scripts-->
+	<script src="js/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/main.js"></script>
+	</body>
+</html>
