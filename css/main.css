@@ -20,6 +20,8 @@ body {
 	background-color: white;
 }
 
+/*Pantalla de inicio*/
+
 #inicio {
 	min-height:600px;
 	border:3px double black;
@@ -79,10 +81,6 @@ select:focus {
 	display:block;
 }
 
-#instrucciones{
-	margin-left: 10px;
-}
-
 #error {
 	font-size: 15px;
 	text-transform: uppercase;
@@ -100,6 +98,12 @@ select {
 #imgdificultad {
 	max-height:250px;
 	max-width:250px;
+}
+
+/*Aside y tablero*/
+
+#instrucciones{
+	margin-left: 10px;
 }
 
 h1, form, p{
@@ -159,11 +163,10 @@ img {
 
 #reinicio {
 	margin-left:10px;
+	margin-bottom:20px;
 }
 
-.hide {
-	visibility:hidden;
-}
+/*Ventana de puntuaciones máximas*/
 
 #puntajes {
 	border:9px double black;
@@ -189,10 +192,14 @@ img {
 
 #cerrar {
 	width:100%;
-
 }
 
 /*Clases utilizadas en JS*/
+
+/*Clase auxiliar que invisibiliza elementos (los elementos ocultos vía js, se ven por un segundo en firefox. Al agregar esta clase, evito ese problema)*/
+.hide {
+	visibility:hidden;
+}
 
 /*Clase que muestra la ficha*/
 .anverso {

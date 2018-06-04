@@ -67,30 +67,18 @@ var fichas = [{ nombre:0,
   var controlNombre = []; //traerá los nombres de cada ficha. Cada ficha tiene un nombre único
   var turno;
   var turnoDificultad; //Guarda el número de turnos de la dificultad seleccionada para traerlo al tocar "reiniciar"
-  var puntos = 0;
+  var puntosDificultad;
+  var aciertos = 0;
   var player;
-  var score;
+  var puntos;
   var puntuacionesMaximas;
 
 /////////////////////////////////FUNCIONES////////////////////////////////////////////
-
-//Función que recupera los puntajes máximos de localStorage (si los hay)
-function getPuntajes(){
-		var puntajesGuardados = localStorage.getItem("puntajes");
-		if(puntajesGuardados==null) {
-  		puntuacionesMaximas=[];
-		}else{
-  		parsePuntajesGuardados = JSON.parse(puntajesGuardados);
-  		puntuacionesMaximas = parsePuntajesGuardados.puntuacionesMax;
-		}
-		console.log(puntuacionesMaximas)
-}
-
 //Función que esconde tablero e instrucciones al entrar a la página 
-function hideTodo(){
-	$("#hideme").hide();
+function esconderTodo(){
+  $("#hideme").hide();
   $("#puntajes").hide();
-};
+}; 
 
 //Función que cambia la imagen al cambiar el nivel de dificultad
 function imagenesDificultad() {
@@ -124,7 +112,7 @@ function imagenesDificultad() {
 )}
 
 //Función que carga el nombre del/lx jugador
- function cargaDatos() {
+ function cargarDatos() {
   var nombre = $("#nombre").val();
   player=nombre;
    
@@ -141,30 +129,43 @@ function imagenesDificultad() {
 };
 
 //Función que carga la dificultad seleccionada
-function selectDificultad(){
+function cargarDificultad(){
 	var opcion = $('#dificultad :selected').val();
 	switch(opcion){
 		case "Principiante": 
 			console.log("Uno"); 
  			turno = 18;
-      score = 100;			
+      puntos = 100;			
 			break;
 
 		case "Intermedio": 
 			console.log("Dos"); 
 			turno = 12;
-      score =150;
+      puntos =150;
 			break;
 
 		case "Experto": console.log("Tres"); 
 			turno = 8;
-      score = 200;
+      puntos = 200;
 			break;
 	};
   turnoDificultad = turno;
-  console.log(score);
+  puntosDificultad = puntos;
+  console.log(puntos);
   $("#contador").text(turno);
 };
+
+//Función que recupera los puntajes máximos de localStorage (si los hay)
+function obtenerPuntajes(){
+    var puntajesGuardados = localStorage.getItem("puntajes");
+    if(puntajesGuardados==null) {
+      puntuacionesMaximas=[];
+    }else{
+      parsePuntajesGuardados = JSON.parse(puntajesGuardados);
+      puntuacionesMaximas = parsePuntajesGuardados.puntuacionesMax;
+    }
+    console.log(puntuacionesMaximas)
+}
 
 //Función que mezcla las fichas 
 function mezclar(){
@@ -177,20 +178,20 @@ function mezclar(){
 }
 
 //Función que reparte las fichas creando dinámicamente los figs e img en el tablero
-
 function repartir() {
-for(i=0;i<fichas.length;i++){
-var img ='<figure class="slotficha"><img id="'+fichas[i].nombre+'" class="reverso" src="'+fichas[i].img+'" data-valor="'+fichas[i].valor+'" draggable="false"/></figure>';
-var tile = $("#tile"+i);
-tile.append(img);
-}
-console.log("repartido");
+  for(i=0;i<fichas.length;i++){
+    var img ='<figure class="slotficha"><img id="'+fichas[i].nombre+'" class="reverso" src="'+fichas[i].img+'" data-valor="'+fichas[i].valor+'" draggable="false"/></figure>';
+    var tile = $("#tile"+i);
+    tile.append(img);
+  }
+  console.log("repartido");
 }
 
 //Función que resetea valores y rehace mezcla/reparto al clickear "reiniciar" 
 function reiniciar() {
   turno = turnoDificultad;
-  puntos = 0;
+  puntos = puntosDificultad;
+  aciertos = 0;
   par = [];
   controlNombre = [];
   $("#tablero").children().show();
@@ -199,10 +200,11 @@ function reiniciar() {
   $(".result").remove()
   mezclar();
   repartir();
+  esconderPuntuaciones();
 }
 
 //Función Gameplay (se activa al clickear una ficha)
- function gameplay() {
+function gameplay() {
   //doy vuelta las fichas y mando sus valores a los arrays
   $(this).addClass("anverso");
   $(this).removeClass("reverso");
@@ -221,7 +223,7 @@ function reiniciar() {
       //Entro a la comparación
       }else{
         comparar();
-        console.log(score);
+        console.log(puntos);
       }
     }
 }
@@ -250,16 +252,16 @@ function win(){
   $(".reverso").removeClass("lock");
   par=[];
   controlNombre=[];
-  puntos++;
+  aciertos++;
 
   //Si fue el último par, se muestra pantalla ganadora
-  if(puntos===6) {
+  if(aciertos===6) {
     $(".tile").children().remove();
     $("#tablero").children().hide();
     var win = `<div class="result"><figure><img src="img/ganador.gif" alt="gato celebratorio"/></figure><h2>¡Felicidades! ¡Has ganado!</h2><h5>¡¡¡¡Presiona "reiniciar" para jugar de nuevo!!!!</h5></div>`;
     $("#tablero").append(win); 
     highScore(); 
-    createScores();
+    crearTablaPuntuaciones();
   }
 }
 
@@ -272,7 +274,7 @@ function lose() {
   par=[];
   controlNombre=[];
   turno--;
-  score-=5;
+  puntos-=5;
   $("#contador").text(turno);
 
   //Si fue el último turno, se muestra pantalla perdedora 
@@ -297,7 +299,7 @@ function rebotar() {
 function highScore(){
   var highScore ={};
   highScore.nombre=player;
-  highScore.puntaje=score;
+  highScore.puntaje=puntos;
 
   //Si no hay ninguna puntuación guardada, guarda la primera y no necesita ordenar
   if(puntuacionesMaximas===0){
@@ -310,11 +312,10 @@ function highScore(){
     puntuacionesMaximas.sort(function(a,b){
        return b.puntaje - a.puntaje;
     });
-    console.log(puntuacionesMaximas);
 
   //Si ya hay cinco puntuaciones, actualiza solamente en caso de que la nueva puntuación sea más alta que la N°5 (y ordena)  
   }else{
-  	if(score>puntuacionesMaximas[4].puntaje){
+  	if(puntos>puntuacionesMaximas[4].puntaje){
     	puntuacionesMaximas.splice(4,1);
     	puntuacionesMaximas.push(highScore);
     	puntuacionesMaximas.sort(function(a,b){
@@ -334,42 +335,38 @@ function crearJSON(){
   localStorage.setItem("puntajes",guardoPuntos);
 }
 
-//Función que crea la tabla de puntuaciones
-function createScores(){
+//Función que crea la tabla visible de puntuaciones
+function crearTablaPuntuaciones(){
   if(puntuacionesMaximas.length>0){
-  $('#highScores').children().remove();
-	$.each(puntuacionesMaximas, function(key,value){
-		var scoreDisplay = `<li>${value.nombre} ${value.puntaje}</li>`
-    $('#highScores').append(scoreDisplay);
-		console.log(scoreDisplay);
-  })
+    $('#highScores').children().remove();
+	  $.each(puntuacionesMaximas, function(key,value){
+		  var scoreDisplay = `<li>${value.nombre} ${value.puntaje}</li>`
+      $('#highScores').append(scoreDisplay);
+    })
 	}
 }
 
-function showScores(){
+//Función que muestra la tabla visible de puntuaciones
+
+function mostrarPuntuaciones(){
   $('#puntajes').show();
 }
 
-function hideScores(){
+//función que oculta la tabla visible de puntuaciones
+
+function esconderPuntuaciones(){
   $('#puntajes').hide();
 }
 /////////////////////////////LLAMADAS A FUNCIONES////////////////////////////////
-hideTodo();
-getPuntajes();
+esconderTodo();
+obtenerPuntajes();
 $("#dificultad").on("change", imagenesDificultad);
-$("#comenzar").on("click", selectDificultad);
-$("#comenzar").on("click", cargaDatos);
+$("#comenzar").on("click", cargarDificultad);
+$("#comenzar").on("click", cargarDatos);
 mezclar();
 repartir();
 $(document).on("click", ".reverso", gameplay);
 $('#reinicio').on('click', reiniciar);
-createScores();
-$("#cerrar").on('click', hideScores);
-$('#verPuntuaciones').on('click', showScores)
-/*
-Criterio para contar puntos:
-- El highscore solamente se guarda en caso de ganar.
-- Cada error resta 5 puntos
-- Ganar en experto da un plus de 200 puntos; en intermedio, de 100 
-y en principiante, de 50 (de este modo, el puntaje nunca es negativo y ganar 
-en un nivel superior da ventaja)*/
+crearTablaPuntuaciones();
+$("#cerrar").on('click', esconderPuntuaciones);
+$('#verPuntuaciones').on('click', mostrarPuntuaciones);
