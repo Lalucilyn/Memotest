@@ -366,7 +366,10 @@ $("#comenzar").on("click", cargarDatos);
 mezclar();
 repartir();
 $(document).on("click", ".reverso", gameplay);
-$('#reinicio').on('click', reiniciar);
+$('#reinicio').on('click', function(){
+  if(par.length===2){
+    setTimeout(reiniciar,1000)
+    }else{reiniciar()}});
 crearTablaPuntuaciones();
 $("#cerrar").on('click', esconderPuntuaciones);
 $('#verPuntuaciones').on('click', mostrarPuntuaciones);
