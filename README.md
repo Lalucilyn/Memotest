@@ -1,5 +1,7 @@
 # Memotest
-Repositorio creado para subir a Github Pages el Memotest creado para el TP2 de ADA ITW - TM
+Welcome to my memory game!!!!
+You can play it here: https://lalucilyn.github.io/Memotest/
 
-NOTA 26-5-2016
-Actualmente, estoy testeando algunas funcionalidades nuevas del memotest para el TP3 de ADA ITW - TM. Por esta razón, va a haber momentos en los que el memotest en esta página no va a estar funcionando correctamente. Una vez finalizado el TP, se subirá la versión estable.
+A couple of notes about this project:
+- This project was made as an exercise for ADA Coding Bootcamp. 
+- It was tested on Chrome and Firefox.
